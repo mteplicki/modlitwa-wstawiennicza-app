@@ -1,15 +1,16 @@
-// import { createSignal } from 'solid-js'
-import './App.css'
+import { Router, Route } from "@solidjs/router"
+import Nav from "./components/Nav"
+import Intencje from "./intencje/Intencje"
+import Uczestnicy from "./uczestnicy/Uczestnicy"
 
-function App() {
-
-  return (
-    <>
-      <h1 class="text-3xl font-bold underline hover:text-blue-950">
-        Hello world!
-      </h1>
-    </>
-  )
+export default function App() {
+    let ref: HTMLDivElement | undefined;
+    return (
+        <div ref={ref}>
+            <Router root={Nav} >
+                <Route path={["/intencje", "/"]} component={Intencje} />
+                <Route path="/uczestnicy" component={Uczestnicy} />
+            </Router>
+        </div>
+    )
 }
-
-export default App
