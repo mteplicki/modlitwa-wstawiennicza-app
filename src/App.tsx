@@ -1,4 +1,4 @@
-import { Router, Route } from "@solidjs/router"
+import { Router, Route } from "./components/MyRouter"
 import Nav from "./components/Nav"
 import Intencje from "./intencje/Intencje"
 import Uczestnicy from "./uczestnicy/Uczestnicy"

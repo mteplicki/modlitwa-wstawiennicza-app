@@ -5,6 +5,8 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "types": ["dom-view-transitions", "dom-navigation", "vite-plugin-pwa/client"],
+
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -21,6 +23,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "node_modules/vite-plugin-pwa/client.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

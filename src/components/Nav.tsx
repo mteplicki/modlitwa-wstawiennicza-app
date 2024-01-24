@@ -1,25 +1,11 @@
-import { RouteSectionProps, useNavigate, Navigator, useLocation} from "@solidjs/router";
-import { createSignal, onMount } from "solid-js";
+import { navigate } from "./MyRouter";
+import { FlowProps, createSignal, onMount } from "solid-js";
 import { effect } from "solid-js/web";
 import { auth } from "../firebase/auth";
+import { path } from "./MyRouter";
+import BottomBar from "./BottomBar"
 
-
-
-
-export function spaNavigate(path: string, navigate: Navigator) {
-
-    // Fallback for browsers that don't support this API:
-    if (!document.startViewTransition) {
-        navigate(path);
-        return true;
-    }
-
-    // With a transition:
-    document.startViewTransition(() => navigate(path));
-    return true;
-}
-
-export default function Nav(props: RouteSectionProps) {
+export default function Nav(props: FlowProps) {
     function transformLocation(location: string) {
         if (location === "/") {
             return "/intencje";
@@ -27,12 +13,10 @@ export default function Nav(props: RouteSectionProps) {
             return location;
         }
     }
-    const navigate = useNavigate();
-    const location = useLocation();
     const [isLogged, setIsLogged] = createSignal(auth.currentUser !== null);
     const [selected, setSelected] = createSignal(transformLocation(location.pathname));
     effect(() => {
-        setSelected(transformLocation(location.pathname));
+        setSelected(transformLocation(path()));
     })
     onMount(() => {
         auth.onAuthStateChanged((user) => {
@@ -99,7 +83,7 @@ export default function Nav(props: RouteSectionProps) {
         <>
             <header class="sticky top-0 z-50 flex flex-wrap md:justify-start md:flex-nowrap w-full bg-primary text-md py-4 dark:bg-blue-900">
                 <nav class="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
-                    <a class="italic md:order-1 flex-none text-xl sm:text-2xl font-semibold text-white text-wrap grow basis-0 cursor-pointer comfortaa-400" onclick={() => spaNavigate("/", navigate)}>Modlitwa <span class="text-tertiary">wstawiennicza</span></a>
+                    <a class="italic md:order-1 flex-none text-xl sm:text-2xl font-semibold text-white text-wrap grow basis-0 cursor-pointer comfortaa-400" onclick={() => navigate("/")}>Modlitwa <span class="text-tertiary">wstawiennicza</span></a>
                     <div class="md:order-3 flex justify-end gap-x-2 grow basis-0">
                         <button type="button" class="transition-all md:hidden hs-collapse-toggle p-2.5 inline-flex justify-center items-center gap-x-2 rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-transparent dark:border-gray-700 dark:text-white dark:hover:bg-white/10" data-hs-collapse="#navbar-alignment" aria-controls="navbar-alignment" aria-label="Toggle navigation">
                             <svg class="transition hs-collapse-open:hidden flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6" /><line x1="3" x2="21" y1="12" y2="12" /><line x1="3" x2="21" y1="18" y2="18" /></svg>
@@ -115,14 +99,14 @@ export default function Nav(props: RouteSectionProps) {
                     </div>
                     <div id="navbar-alignment" class="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:grow-0 md:basis-auto md:block md:order-2 md:mx-5">
                         <div class="flex flex-col gap-5 mt-5 md:flex-row md:items-center md:mt-0 md:ps-0">
-                            <button class={`${selected() === "/intencje" ? "text-tertiary" : "text-white"} transition font-medium hover:text-lime-600 cursor-pointer`} onclick={() => spaNavigate("/intencje", navigate)}>Wyślij intencje</button>
-                            <button class={`${selected() === "/uczestnicy" ? "text-tertiary" : "text-white"} transition font-medium  hover:text-lime-600 cursor-pointer`} onclick={() => spaNavigate("/uczestnicy", navigate)}>Panel uczestnika</button>
+                            <button type="button" class={`${selected() === "/intencje" ? "text-tertiary" : "text-white"} transition font-medium hover:text-lime-600 cursor-pointer`} onclick={()=>navigate("/intencje")}>Wyślij intencje</button>
+                            <button type="button" class={`${selected() === "/uczestnicy" ? "text-tertiary" : "text-white"} transition font-medium  hover:text-lime-600 cursor-pointer`} onclick={()=>navigate("/uczestnicy")}>Panel uczestnika</button>
                         </div>
                     </div>
                 </nav>
             </header>
             {props.children}
-            
+            <BottomBar />
         </>
 
 

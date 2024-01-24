@@ -10,10 +10,11 @@ const signal = createSignal(window.scrollY);
 function Intencje() {
 
   return (
-    <Scroller signal={signal}>
+      <Scroller signal={signal}>
         <Jumbotron />
         <Info />
-    </Scroller>
+      </Scroller>
+
   )
 }
 
