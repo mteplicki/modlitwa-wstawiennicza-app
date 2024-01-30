@@ -3,14 +3,18 @@
     "development"
   ],
   "hints": {
-    "compat-api/css": [
+    "compat-api/css": "off",
+    "compat-api/html": [
       "default",
       {
         "ignore": [
-          "backdrop-filter"
+          "meta[name=theme-color]"
         ]
       }
-    ]
+    ],
+    "typescript-config/is-valid": "off",
+    "css-prefix-order": "off",
+    "no-inline-styles": "off"
   },
   "browserslist": [
     "defaults",

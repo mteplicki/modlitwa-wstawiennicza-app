@@ -21,7 +21,7 @@ export default defineConfig({
       filename: 'sw.ts',
       manifest: {
         name: "Modlitwa wstawiennicza MOST",
-        short_name: "Modlitwa wstawiennicza",
+        short_name: "MW MOST",
         description: "Aplikacja podprzęsła modlitwy wstawienniczej w duszpasterstwie MOST",
         theme_color: "#e8f1fe",
         icons: [

@@ -5,7 +5,7 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-    "types": ["dom-view-transitions", "dom-navigation", "vite-plugin-pwa/client"],
+    "types": ["dom-view-transitions", "dom-navigation", "vite-plugin-pwa/solid"],
 
 
     /* Bundler mode */

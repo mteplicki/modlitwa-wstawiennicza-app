@@ -1,16 +1,17 @@
-import { Router, Route } from "./components/MyRouter"
-import Nav from "./components/Nav"
-import Intencje from "./intencje/Intencje"
-import Uczestnicy from "./uczestnicy/Uczestnicy"
+import { Router, Route } from "./router/MyRouter"
+import Nav from "./root/Root"
+import { lazy } from "solid-js";
+
+const Intencje = lazy(async () => import("./intencje/Intencje"))
+const Uczestnicy = lazy(async () => import("./uczestnicy/Uczestnicy"))
 
 export default function App() {
-    let ref: HTMLDivElement | undefined;
     return (
-        <div ref={ref}>
+        <>
             <Router root={Nav} >
-                <Route path={["/intencje", "/"]} component={Intencje} />
-                <Route path="/uczestnicy" component={Uczestnicy} />
+                <Route path={["/intencje", "/"]} component={Intencje} transitionType="content1"/>
+                <Route path="/uczestnicy" component={Uczestnicy} transitionType="content2"/>
             </Router>
-        </div>
+        </>
     )
 }
