@@ -1,13 +1,11 @@
-// import { dialog } from "./Root";
 import "./Dialog.module.css"
 
 import { query, setQueryParams } from "../router/MyRouter";
 import { effect } from "solid-js/web";
-import { dialog } from "./Root";
 import { onMount } from "solid-js";
 
 export function Dialog() {
-
+    let dialog: HTMLDialogElement | undefined;
     onMount(() => {
         if(query.dialog){
             if(document.startViewTransition){
@@ -18,6 +16,13 @@ export function Dialog() {
                 dialog?.showModal();
             }
         }
+        window.addEventListener("keydown", (e) => {
+            console.log(e)
+            e.preventDefault(); 
+            if(e.key === "Escape"){
+                setQueryParams(((oldState) => {return {...oldState, ...{dialog:undefined}}}));
+            }
+        })
     })
 
     effect(() => {
@@ -44,10 +49,10 @@ export function Dialog() {
         }
     })
 
-    return <dialog id="test" class="transition-all rounded-lg bg-white shadow dark:bg-gray-700">
-        <div class="relative w-full max-w-3xl min-w-3xl max-h-full">
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+    return <dialog ref={dialog} id="test" class="box-border transition-all bg-transparent sm:my-auto px-2 py-4 sm:p-0 h-full sm:h-auto sm:max-h-fit sm:px-6 w-full sm:w-auto">
+        <div class="mx-auto bg-white shadow dark:bg-gray-700 rounded-lg relative w-full sm:max-w-xl sm:min-w-96 py-auto sm:max-h-full h-full sm:h-auto">
+            <div class="relative bg-white rounded-lg  dark:bg-gray-700 h-full sm:h-auto">
+                <div class="flex items-center justify-between p-4 py-auto md:p-5 border-b rounded-t dark:border-gray-600">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
                         Sign in to our platform
                     </h3>
@@ -58,7 +63,7 @@ export function Dialog() {
                         <span class="sr-only">Close modal</span>
                     </button>
                 </div>
-                <div class="p-4 md:p-5">
+                <div class="p-4 my-auto md:p-5">
                     <form class="space-y-4" action="#">
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>

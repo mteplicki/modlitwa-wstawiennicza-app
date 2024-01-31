@@ -71,7 +71,7 @@ export default function Nav(props: FlowProps) {
         setSelected(transformLocation(path()));
     })
     onMount(() => {
-        dialog = document.getElementById("test") as HTMLDialogElement;
+        
         showToast({
             type: "success",
             title: "Witaj!",

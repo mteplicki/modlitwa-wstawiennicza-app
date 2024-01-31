@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      transitionProperty: {
+        'max-h': 'max-height'
+      },
       colors: {
         "primary": "#2573a6",
         "secondary": "#e8f1fe",

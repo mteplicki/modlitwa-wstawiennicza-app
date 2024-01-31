@@ -1,57 +1,52 @@
 dialog::backdrop {
-    background: rgba( 0, 0, 0, 0.2 );
-    backdrop-filter: blur(2px);
-    view-transition-name: dialog3;
+  background: rgba(0, 0, 0, 0.4);
+  view-transition-name: dialog3;
 }
 
-/* dialog[open] {
-    animation: fadein 0.25s ease-in forwards;
-    pointer-events: visible;
-} */
-
-/* dialog[open]::backdrop {
-    animation: backdrop-fade 0.25s ease-in forwards;
-    pointer-events: visible;
-} */
-
-  
-  @keyframes fadein{
-    0%{
-      opacity:0;
-    }
-    100%{
-      opacity:1;
-      background-color: green;
-    }
+@media (prefers-color-scheme: dark) {
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.6);
   }
+}
+
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 dialog {
-    view-transition-name: dialog2;
-    /* opacity: 0;
-    pointer-events: none;
-  animation: fadeout 1s ease-in forwards;
-  pointer-events: none; */
+  view-transition-name: dialog2;
 }
 
-@keyframes fadeout{
-  0%{
-    opacity:1;
+@keyframes fadeout {
+  0% {
+    opacity: 1;
   }
-  100%{
-    opacity:0;
+
+  100% {
+    opacity: 0;
   }
 }
 
 
 ::view-transition-group(dialog2),
 ::view-transition-group(dialog3) {
-    z-index: 105;
+  z-index: 110;
 }
 
-@keyframes backdrop-fade {
-    from {
-      background: transparent;
-    }
-    to{
-      background: rgba(0,0,0, 0.2);
-    }
-  }
+::view-transition-old(dialog2),
+::view-transition-old(dialog3) {
+  animation-name: fadeout;
+  animation-duration: 0.4s;
+}
+
+::view-transition-new(dialog2),
+::view-transition-new(dialog3) {
+  animation-name: fadein;
+  animation-duration: 0.4s;
+}

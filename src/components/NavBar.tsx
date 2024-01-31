@@ -1,7 +1,7 @@
 import { Accessor, Show, VoidProps } from "solid-js"
 import { navigate, setQueryParams } from "../router/MyRouter"
 import { isInStandaloneMode } from "../utils/pwaUtils"
-import { dialog } from "../root/Root"
+import 'NavBar.module.css'
 
 export default function NavBar(props: VoidProps<{ isLogged: Accessor<boolean>, selected: Accessor<string> }>) {
     return (

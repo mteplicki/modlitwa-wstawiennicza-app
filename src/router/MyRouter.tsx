@@ -48,7 +48,6 @@ const [transitionHappened, setTransitionHappened] = createSignal(false);
 export function navigate(newPath: string, options?: { notPush?: boolean, query?: { [key: string]: string } }) {
     console.log(query)
     console.log(options)
-    let notPush = options?.notPush ?? false;
     console.log(newPath)
     let queryString = parseQueryToString(options?.query ?? {});
     if (!(newPath === path())) {
