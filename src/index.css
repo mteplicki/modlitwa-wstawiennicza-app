@@ -87,14 +87,14 @@ header {
 }
 
 ::view-transition-group(*){
-  animation-duration: 0.45s;
+  animation-duration: 0.3s;
 }
 
 ::view-transition-group(bottom-bar),
 ::view-transition-group(header),
 ::view-transition-group(toast-list) {
-  z-index: 100;
-  animation-duration: 0.8;
+  z-index: 105;
+  animation-duration: 0.3;
 }
 
 ::view-transition-old(bottom-bar),
@@ -110,29 +110,29 @@ header {
 ::view-transition-old(content1) {
   /* transform-origin: -100px var(--slide-to-top-size, 316px); */
   animation:
-    210ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-    450ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-top;
+    140ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+    280ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-top;
 }
 
 ::view-transition-new(content1) {
   /* transform-origin: 100px var(--slide-from-bottom-size, 316px); */
   animation:
-    300ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-    450ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-bottom;
+    200ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+    280ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-bottom;
 }
 
 ::view-transition-old(content2) {
   /* transform-origin: -100px var(--slide-to-top-size, 316px); */
   animation:
-    210ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-    450ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-top;
+    140ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+    280ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-top;
 }
 
 ::view-transition-new(content2) {
   /* transform-origin: 100px var(--slide-from-bottom-size, 316px); */
   animation:
-    300ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-    450ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-bottom;
+    200ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
+    280ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-bottom;
 }
 
 
@@ -160,6 +160,7 @@ textarea::-webkit-scrollbar-track {
   border-radius: 10px;
   background: #000;
   -webkit-box-shadow: inset 0 0 6px #888;
+  transition: all;
 }
 
 ::-webkit-scrollbar-thumb:hover {

@@ -1,4 +1,37 @@
+import axios from "axios";
+import { onMount } from "solid-js";
+import { showToast } from "../root/toasts";
+
 export default function Jumbotron() {
+    let formRef: HTMLFormElement | undefined;
+
+    onMount(() => {
+        formRef?.addEventListener("submit", (e) => {
+            e.preventDefault();
+            let formData = new FormData(formRef);
+            axios.get("https://script.google.com/macros/s/AKfycbxPaDd57fYncbzXRvmS1spmkLghcne5dbwqT1PeQl0KaGatI3HgFJ-kV8u2VhYr5ZFV/exec", {
+                params: {
+                    name: formData.get("imie"),
+                    intention: formData.get("intencja")
+                }
+            }
+            ).then((response) => {
+                if (response.data !== "OK"){
+                    alert("Wystąpił błąd podczas wysyłania intencji. Spróbuj ponownie później.")
+                } else {
+                    showToast({
+                        type: "success",
+                        title: "Intencja wysłana!",
+                        description: "Twoja intencja została wysłana. Dziękujemy!"
+                    },
+                        { time: 5000 }
+                    )
+                }
+            })
+            formRef!.reset();
+        })
+    })
+
     return (
         <section class="bg-gray-50 dark:bg-gray-900">
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 grid lg:grid-cols-2 gap-8 lg:gap-16">
@@ -16,7 +49,7 @@ export default function Jumbotron() {
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
                             Tutaj napisz swoją intencję
                         </h2>
-                        <form class="mt-8 space-y-6" action="#">
+                        <form name="myform" ref={formRef} class="mt-8 space-y-6">
                             <div>
                                 <label for="imie" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Imię</label>
                                 <input type="text" name="imie" id="imie" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Anna" required />
@@ -25,19 +58,7 @@ export default function Jumbotron() {
                                 <label for="intencja" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Twoja intencja</label>
                                 <textarea name="intencja" id="intencja" placeholder="Wpisz swoją intencję..." class="style-scroll bg-gray-50 h-32 resize-none border overflow-y-scroll border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                             </div>
-                            <div class="flex items-start">
-                                <div class="flex items-center h-5">
-                                    <input id="remember" aria-describedby="remember" name="remember" type="checkbox" class="w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600" required />
-                                </div>
-                                <div class="ms-3 text-sm">
-                                    <label for="remember" class="font-medium text-gray-500 dark:text-gray-400">Remember this device</label>
-                                </div>
-                                <a href="#" class="ms-auto text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Lost Password?</a>
-                            </div>
-                            <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login to your account</button>
-                            <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                Not registered yet? <a class="text-blue-600 hover:underline dark:text-blue-500">Create account</a>
-                            </div>
+                            <button type="submit" class="w-full px-5 py-3 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Wyślij intencję</button>
                         </form>
                     </div>
                 </div>

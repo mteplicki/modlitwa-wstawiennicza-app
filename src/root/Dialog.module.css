@@ -1,52 +1,45 @@
-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.4);
-  view-transition-name: dialog3;
+
+
+dialog.mydialog {
+  view-transition-name: dialog2;
+  margin: 0;
+  position: fixed;
+  border: none;
+  display: none;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  background-color: rgba(0, 0, 0, 0.0);
+  transition: all;
 }
 
-@media (prefers-color-scheme: dark) {
-  dialog::backdrop {
-    background: rgba(0, 0, 0, 0.6);
-  }
-}
 
 @keyframes fadein {
   0% {
-    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.0);
   }
 
   100% {
-    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.4);
   }
 }
 
-dialog {
-  view-transition-name: dialog2;
+dialog.mydialog[open] {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  animation: fadein 0.15s;
 }
 
-@keyframes fadeout {
-  0% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-
-::view-transition-group(dialog2),
-::view-transition-group(dialog3) {
-  z-index: 110;
-}
 
 ::view-transition-old(dialog2),
 ::view-transition-old(dialog3) {
-  animation-name: fadeout;
-  animation-duration: 0.4s;
+  animation: none;
 }
 
 ::view-transition-new(dialog2),
 ::view-transition-new(dialog3) {
-  animation-name: fadein;
-  animation-duration: 0.4s;
+  animation:none;
 }

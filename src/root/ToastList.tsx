@@ -1,9 +1,11 @@
 import { For, Match, Switch, VoidProps, Show, Accessor } from "solid-js"
-import { Toast as ToastType, ToastWrapper } from "./Root"
+import { ToastWrapper } from "./toasts"
+import { isInStandaloneMode } from "../utils/pwaUtils"
 
-function PromptToast({ toast }: VoidProps<{ toast: ToastType }>) {
+export function PromptToast({ wrapper }: VoidProps<{ wrapper: ToastWrapper }>) {
+    const { toast } = wrapper
     return (
-        <div style={{"view-transition-name": (Math.random() + 1).toString(36).substring(7)}} class="w-full sm:w-96 bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700" role="alert">
+        <div ref={(ref)=>{wrapper.resolveFunc(ref)}} class="w-full overflow-y-hidden z-50 sm:w-96 bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700" role="alert">
             <div class="flex p-4">
                 <div class="flex-shrink-0">
                     <svg class="h-5 w-5 text-gray-600 mt-1 dark:text-gray-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
@@ -35,9 +37,10 @@ function PromptToast({ toast }: VoidProps<{ toast: ToastType }>) {
     )
 }
 
-function SuccessToast({ toast }: VoidProps<{ toast: ToastType }>) {
+export function SuccessToast({ wrapper }: VoidProps<{ wrapper: ToastWrapper }>) {
+    const { toast } = wrapper
     return (
-        <div style={{"view-transition-name": (Math.random() + 1).toString(36).substring(7)}} class="w-full sm:w-96  bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700" role="alert">
+        <div ref={(ref)=>{wrapper.resolveFunc(ref)}}  class="z-50 w-full sm:w-96 overflow-y-hidden bg-white border border-gray-200 rounded-xl shadow-lg dark:bg-gray-800 dark:border-gray-700" role="alert">
             <div class="flex p-4">
                 <div class="flex-shrink-0">
                     <svg class="flex-shrink-0 h-4 w-4 text-teal-500 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -56,19 +59,19 @@ function SuccessToast({ toast }: VoidProps<{ toast: ToastType }>) {
 
 export default function Toast({ toasts }: VoidProps<{ toasts: Accessor<ToastWrapper[]> }>) {
     return (
-        // <TransitionGroup>
+        <div class={`z-[55] flex float-right h-fit gap-3 box-border my-3 px-4 sm:px-0 sm:mx-4 flex-col toast-list-transition items-end min-w-full sm:w-fit sm:min-w-0 fixed start-1/2 sm:start-auto -translate-x-1/2 sm:translate-x-0 bottom-0 sm:end-0 ${isInStandaloneMode() ? "bottom-16 " : "bottom-0"}`}>
             <For each={toasts()}>
                 {(item) =>
                     <Switch >
                         <Match when={item.toast.type === "success"}>
-                            <SuccessToast toast={item.toast} />
+                            <SuccessToast wrapper={item} />
                         </Match>
                         <Match when={item.toast.type === "prompt"}>
-                            <PromptToast toast={item.toast} />
+                            <PromptToast wrapper={item} />
                         </Match>
                     </Switch>
                 }
             </For>
-        // </TransitionGroup>
+        </div>
     )
 }

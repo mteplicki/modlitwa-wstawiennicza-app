@@ -3,6 +3,18 @@ import solid from 'vite-plugin-solid'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'solid-js': ['solid-js'],
+          'solid-js/web': ['solid-js/web'],
+          'solid-js/store': ['solid-js/store'],
+          'firestore': ['firebase/firestore'],
+        }
+      }
+    }
+  },
   plugins: [
     solid(),
     VitePWA({
@@ -14,11 +26,11 @@ export default defineConfig({
       },
       strategies: 'injectManifest',
       injectManifest: {
-        swSrc: './src/sw.ts',
-        swDest: './dist/sw.js'
+        swSrc: './src/firebase-messaging-sw.ts',
+        swDest: './dist/firebase-messaging-sw.js'
       },
       srcDir: 'src',
-      filename: 'sw.ts',
+      filename: 'firebase-messaging-sw.ts',
       manifest: {
         name: "Modlitwa wstawiennicza MOST",
         short_name: "MW MOST",

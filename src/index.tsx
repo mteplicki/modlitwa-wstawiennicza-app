@@ -2,8 +2,8 @@
 import { render } from 'solid-js/web'
 import App from './App';
 import './index.css'
-import 'preline'
-import 'flowbite'
+//@ts-ignore
+import { token } from './firebase/messaging';
 
 if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark');
