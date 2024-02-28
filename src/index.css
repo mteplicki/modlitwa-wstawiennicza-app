@@ -135,6 +135,8 @@ header {
     280ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-bottom;
 }
 
+.grecaptcha-badge { visibility: hidden; }
+
 
 /* ::view-transition-old(content2) {
   animation:

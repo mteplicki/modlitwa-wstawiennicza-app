@@ -8,6 +8,7 @@ import { Dialog } from "./Dialog";
 import ToastList from "./ToastList";
 import { themeChange } from "./themeChange";
 import { showExampleToasts, toasts } from "./toasts";
+import { refs } from "./Refs";
 
 function transformLocation(location: string) {
     if (location === "/") {
@@ -31,7 +32,7 @@ export default function Nav(props: FlowProps) {
     return (
         <>
             <Dialog />
-            <NavBar isLogged={isLogged} selected={selected} />
+            <NavBar ref={refs.NavRef} isLogged={isLogged} selected={selected} />
             <ToastList toasts={toasts} />
             {props.children}
             <Show when={isInStandaloneMode()}>

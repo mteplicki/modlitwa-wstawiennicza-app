@@ -1,6 +1,7 @@
 import { Component, FlowProps, Show, Signal, createSignal, onCleanup, onMount } from "solid-js";
 import Scroller from "../components/Scroller";
 import { createStore } from "solid-js/store";
+import { refs } from "../root/Refs";
 
 type PathDivRef = { [a: string]: (HTMLDivElement | undefined) }
 
@@ -50,7 +51,7 @@ export function navigate(newPath: string, options?: { notPush?: boolean, query?:
     setTransitionHappened(true);
 
     // Fallback for browsers that don't support this API:
-    if (!document.startViewTransition) {
+    if (!document.startViewTransition || newPath === path()) {
         if (!options?.notPush) window.history.pushState({}, '', `${newPath}?${queryString}`);
         setPath(newPath);
         setQueryParams((state) => {
@@ -67,6 +68,7 @@ export function navigate(newPath: string, options?: { notPush?: boolean, query?:
 
 
     // With a transition:
+    refs.NavRef?.style.setProperty("view-transition-name", "none");
     const transition = document.startViewTransition(async () => {
         if (!options?.notPush) window.history.pushState({}, '', `${newPath}?${queryString}`);
         setPath(newPath);
@@ -82,6 +84,7 @@ export function navigate(newPath: string, options?: { notPush?: boolean, query?:
 
     transition.finished.then(() => {
         pathDivRef[path()]?.style.setProperty("view-transition-name", null);
+        refs.NavRef?.style.setProperty("view-transition-name", null);
     })
 }
 
@@ -102,7 +105,6 @@ const handleNav = (event: NavigateEvent) => {
             } else {
                 navigate(url.pathname, { query: queryString });
             }
-
         }
     })
 }

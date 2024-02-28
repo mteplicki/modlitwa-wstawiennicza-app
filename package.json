@@ -14,6 +14,7 @@
     "@solid-primitives/scroll": "^2.0.21",
     "@solidjs/router": "^0.10.9",
     "@types/dom-view-transitions": "^1.0.4",
+    "@types/grecaptcha": "^3.0.7",
     "axios": "^1.6.7",
     "firebase": "^10.7.1",
     "firebaseui": "^6.1.0",

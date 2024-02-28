@@ -11,7 +11,9 @@ export const [data, { refetch }] = createResource(async () => {
     }
     const colect1 = collection(firestore, "intentions", auth.currentUser?.email!, "dates");
     let docs = await getDocs(query(colect1, orderBy(documentId(), "desc"), limit(1))); 
-    console.log(docs.docs[0].data());
+    if(docs.docs.length === 0) {
+        return null;
+    }
     return docs.docs[0].data();
 })
 
@@ -24,11 +26,15 @@ export function prepareData(data: DocumentData | null | undefined) {
         intentions: data.intentions.map((e : string, i : number)=>({name: data.names[i], intention: e})) as readonly {name: string, intention: string}[]
     }
 }
+let resolve : (value: void | PromiseLike<void>) => void;
+export const isLoaded = new Promise<void>((res) => {resolve = res})
 
-effect(() => {
+effect(async () => {
+    await auth.authStateReady();
     if (isLogged()) {
-        console.log("refetching as effect isLogged changed");
-        refetch();
-        refetchIsAuthorized()
+        let promise1 = refetch();
+        let promise2 = refetchIsAuthorized()
+        await Promise.all([promise1, promise2])
     }
+    resolve()
 })

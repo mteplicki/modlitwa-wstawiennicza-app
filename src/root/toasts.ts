@@ -6,7 +6,7 @@ export type Action = {
 }
 
 export type Toast = {
-    type: "success" | "prompt"
+    type: "success" | "prompt" | "error",
     title: string,
     description: string,
     action1?: Action,

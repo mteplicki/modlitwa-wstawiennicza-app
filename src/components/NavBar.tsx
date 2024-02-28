@@ -7,10 +7,11 @@ import AccountButton from './AccountButton';
 
 let [expanded, setExpanded] = createSignal(false);
 
-export default function NavBar(props: VoidProps<{ isLogged: Accessor<boolean>, selected: Accessor<string> }>) {
+
+export default function NavBar(props: VoidProps<{ isLogged: Accessor<boolean>, selected: Accessor<string>, ref: HTMLDivElement | undefined }>) {
     let ref: HTMLDivElement | undefined;
     return (
-        <header class="sticky top-0 z-50 flex flex-wrap md:justify-start md:flex-nowrap w-full bg-primary text-md py-4 dark:bg-blue-900">
+        <header ref={ref} class="sticky top-0 z-50 flex flex-wrap md:justify-start md:flex-nowrap w-full bg-primary text-md py-4 dark:bg-blue-900">
             <nav class="max-w-[85rem] w-full mx-auto px-4 flex flex-wrap basis-full items-center justify-between" aria-label="Global">
                 <a class="italic md:order-1 flex-none text text-lg sm:text-xl lg:text-2xl font-semibold text-white text-wrap grow basis-0 cursor-pointer comfortaa-400" onclick={() => navigate("/")}>Modlitwa <span class="text-tertiary">wstawiennicza</span></a>
                 <div class="md:order-3 flex justify-end gap-x-2 grow basis-0">

@@ -41,7 +41,7 @@ export function Dialog() {
     let fallbackRef : HTMLDivElement | undefined;
     const ui = new firebaseui.auth.AuthUI(auth)
     
-    let observer = new ResizeObserver(()=>{if (!window.matchMedia("min-width: 640px")) { box!.style.maxHeight = box?.scrollHeight + "px"} else {box!.style.maxHeight = "none"};console.log(box?.style.maxHeight)})
+    let observer = new ResizeObserver(()=>{if (!window.matchMedia("min-width: 640px")) { box!.style.maxHeight = box?.scrollHeight + "px"} else {box!.style.maxHeight = "none"}})
 
     function onClick(event: MouseEvent) {
         if (event.target === flex) {
@@ -87,7 +87,6 @@ export function Dialog() {
                 150)
         } else if (dialog?.open) {
             observer.unobserve(box!)
-            console.log("closing")
             let animation1 = dialog?.animate([
                 { "background-color": "rgba(0, 0, 0, 0.4);", opacity: "1" },
                 { "background-color": "rgba(0, 0, 0, 0.0);", opacity: "0" }

@@ -11,38 +11,35 @@ export type Intencja = {
     intencja: string
 }
 
+let ref: HTMLTableElement | undefined;
+let ref2: HTMLDivElement | undefined;
+let [fallbackHeight, setFallbackHeight] = createSignal(10);
 
+export function refresh() {
+    const newspaperTiming = {
+        duration: 150,
+        iterations: 1,
+    };
+    const test = [{ "height": `${scrollHeight()}px`, opacity: 1 }, { "height": `${fallbackHeight()}px`, opacity: 0.2 }]
+    let animation = ref2?.animate(test, newspaperTiming)
+    animation!.onfinish = () => refetch();
+}
 
 export default function Tabela() {
 
-    let ref: HTMLTableElement | undefined;
-    let ref2: HTMLDivElement | undefined;
+
 
     let resizeObserver = new ResizeObserver(() => { setScrollHeight(ref!.scrollHeight) });
 
     let [mounted, setMounted] = createSignal(false);
 
-    let [fallbackHeight, setFallbackHeight] = createSignal(0);
-
     createEffect(() => {
         if (isLogged()) {
-            console.log(ref)
             resizeObserver.observe(ref!);
         } else {
             resizeObserver?.disconnect();
         }
     })
-        
-
-    function refresh() {
-        const newspaperTiming = {
-            duration: 150,
-            iterations: 1,
-        };
-        const test = [{ "height": `${scrollHeight()}px`, opacity: 1 }, { "height": `${fallbackHeight()}px`, opacity: 0.2 }]
-        let animation = ref2?.animate(test, newspaperTiming)
-        animation!.onfinish = () => refetch();
-    }
 
     return <Show when={isLogged()}>
         <div class="flex flex-col px-4">

@@ -1,9 +1,9 @@
 import { Router, Route } from "./router/MyRouter"
 import Nav from "./root/Root"
-import { lazy } from "solid-js";
+import Intencje from "./intencje/Intencje"
+import Uczestnicy from "./uczestnicy/Uczestnicy"
 
-const Intencje = lazy(async () => import("./intencje/Intencje"))
-const Uczestnicy = lazy(async () => import("./uczestnicy/Uczestnicy"))
+console.log("version 1.3.9")
 
 export default function App() {
     return (

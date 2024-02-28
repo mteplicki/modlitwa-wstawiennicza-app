@@ -17,8 +17,8 @@ function getDate() {
 
 
 export default function HeaderFallback() {
-    return <div>
-        <div class="absolute w-full h-full">
+    return <div class="relative">
+        <div class="absolute h-full w-full">
             <DialogFallback notMinHeight/>
         </div>
         <h2 class="text-2xl opacity-0 sm:text-3xl font-extrabold dark:text-white px-4 text-center">Oto Twoje intencje na następujący tydzień: <br /> <span class="text-tertiary">{getDate()[0]} {getDate()[1]}</span></h2>

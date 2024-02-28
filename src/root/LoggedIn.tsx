@@ -1,14 +1,24 @@
 import { Match, Show, Suspense, Switch } from "solid-js";
 import { auth, currentUser, isAuthorized } from "../firebase/auth";
 import DialogFallback from "./DialogFallback";
+import noProfileIcon from "../assets/noProfileIcon.png";
 
 export default function LoggedIn() {
 
     return <>
         <div class="rounded-lg box-border dark:bg-gray-600 shadow-2xl p-3">
             <div class="grid place-items-center box-border  grid-cols-1 sm:grid-cols-2 items-center justify-center">
-                <div class="py-0 sm:py-5">
-                    <img class="rounded-full shadow-2xl min-w-28 mb-5 sm:my-0 sm:mx-5" src={currentUser()?.photoURL || ""} alt="Zdjęcie użytkownika" onloadstart={() => console.log("loading")} />
+                <div class="py-0  sm:py-5">
+                    <div >
+                        <Switch>
+                            <Match when={currentUser()?.photoURL}>
+                                <img class="rounded-full shadow-2xl min-w-28 max-w-40 mb-5 sm:my-0 sm:mx-5 aspect-square" referrerpolicy="no-referrer" src={currentUser()?.photoURL! + "?key=" + new Date().getTime()} alt="Zdjęcie profilowe" />
+                            </Match>
+                            <Match when={!currentUser()?.photoURL}>
+                                <img class="rounded-full shadow-2xl min-w-28 max-w-40 mb-5 sm:my-0 sm:mx-5 aspect-square" src={noProfileIcon} alt="Zdjęcie profilowe" />
+                            </Match>
+                        </Switch>
+                    </div>
                 </div>
                 <div class="mb-5 sm:mb-0 sm:h-full flex flex-col items-center justify-center gap-3 pt-5 border-t-2 border-gray-500 w-full sm:pt-0 sm:ps-3 sm:border-t-0 sm:border-s-2">
                     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Zalogowany jako:</h2>
