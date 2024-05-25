@@ -1,10 +1,13 @@
 import { FlowProps } from "solid-js/types/server/rendering.js";
 import Tabela from "./Tabela";
-import { Match, Suspense, Switch, createEffect, createSignal } from "solid-js";
+import { Match, Show, Suspense, Switch, createEffect, createSignal } from "solid-js";
 import { prepareData, data, isLoaded } from "../firebase/intentions";
 import DialogFallback from "../root/DialogFallback";
 import { isAuthorizedFunc, isLogged, isReady } from "../firebase/auth";
 import HeaderFallback from "./HeaderFallback";
+import { deferredPrompt, isInStandaloneMode, isIos, setDeferredPrompt } from "../utils/pwaUtils";
+import { notificationPermitted, setNotificationPermitted } from "../utils/pwaUtils";
+import { showToast } from "../root/toasts";
 
 const ElementWrapper = (props: FlowProps<{ relative?: boolean }>) => <div classList={{ "relative": props.relative }} class="mx-auto min-w-full max-w-full sm:max-w-2xl md:max-w-3xl lg:max-w-4xl px-2 sm:px-0 py-4 sm:min-w-96">{props.children}</div>
 
@@ -14,6 +17,26 @@ let loadingRef: HTMLDivElement | undefined;
 
 const [showLoading, setShowLoading] = createSignal(true);
 const [showElement, setShowElement] = createSignal<Element>("table");
+
+const disabledButtonStyle = {
+    "bg-green-400": true,
+    "text-gray-100": true,
+    "dark:bg-green-800": true,
+    "dark:text-gray-400": true
+}
+
+const enabledButtonStyle = {
+    "text-white": true,
+    "bg-blue-700": true,
+    "hover:bg-blue-800": true,
+    "focus:ring-4": true,
+    "focus:ring-blue-300": true,
+    "dark:bg-blue-600": true,
+    "dark:hover:bg-blue-700": true,
+    "focus:outline-none": true,
+    "dark:focus:ring-blue-800": true
+}
+
 
 export default function Uczestnicy() {
 
@@ -43,6 +66,8 @@ export default function Uczestnicy() {
         }
     })
 
+
+
     return <div class="min-h-screen">
         <div classList={{ "hidden": !showLoading() }} ref={loadingRef} class="fixed flex w-full flex-col justify-center items-center h-full  bg-gray-50 dark:bg-gray-900 z-[45]">
             <DialogFallback notMinHeight />
@@ -51,9 +76,9 @@ export default function Uczestnicy() {
             <Switch>
                 <Match when={showElement() === "table"}>
                     <ElementWrapper relative>
-                            <Suspense fallback={<HeaderFallback />}>
-                                <h2 class="text-2xl sm:text-3xl font-extrabold dark:text-white px-4 text-center">Oto Twoje intencje na następujący tydzień: <br /> <span class="text-tertiary">{prepareData(data()).date[0]} - {prepareData(data()).date[1]}</span></h2>
-                            </Suspense>
+                        <Suspense fallback={<HeaderFallback />}>
+                            <h2 class="text-2xl sm:text-3xl font-extrabold dark:text-white px-4 text-center">Oto Twoje intencje na następujący tydzień: <br /> <span class="text-tertiary">{prepareData(data()).date[0]} - {prepareData(data()).date[1]}</span></h2>
+                        </Suspense>
                     </ElementWrapper>
 
                     <ElementWrapper>
@@ -113,7 +138,59 @@ export default function Uczestnicy() {
         </ElementWrapper>
 
         <ElementWrapper>
-            <h5 class="text-xl font-bold dark:text-white px-4">Ustawienia aplikacji</h5>
+            <h5 class="text-xl font-bold dark:text-white px-4 pb-4">Ustawienia aplikacji</h5>
+            <div class="px-4 py-2">
+                <button disabled={notificationPermitted()} type="button" classList={
+                    notificationPermitted() ? disabledButtonStyle : enabledButtonStyle
+                } class=" font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition-all" onclick={() => {
+                    Notification.requestPermission().then((permission) => {
+                        console.log(permission)
+                        if (permission === "granted") {
+                            setNotificationPermitted(true)
+                        }
+                    })
+                }}>
+                    Zezwól na powiadomienia nowych intencji
+                </button>
+            </div>
+            <div class="px-4 py-2">
+                <button disabled={isInStandaloneMode()} type="button" classList={
+                    isInStandaloneMode() ? disabledButtonStyle : enabledButtonStyle
+                } class=" font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition-all" onclick={() => {
+                    if (isIos()) {
+                        showToast({
+                            type: "prompt",
+                            title: "Instalacja aplikacji",
+                            description: "Aby zainstalować aplikację na swoim urządzeniu, kliknij przycisk 'Udostępnij a następnie 'Dodaj do ekranu głównego'.",
+                            action1: {
+                                title: "Udostępnij",
+                                action: () => {
+                                    console.log("share")
+                                }
+                            }
+                        })
+                    } else {
+                        if (deferredPrompt) {
+                            deferredPrompt.prompt();
+                            deferredPrompt.userChoice.then((choiceResult: any) => {
+                                if (choiceResult.outcome === 'accepted') {
+                                    console.log('User accepted the PWA prompt');
+                                    localStorage.removeItem('pwa-install-rejected');
+                                } else {
+                                    console.log('User dismissed the PWA prompt');
+                                }
+                                setDeferredPrompt(null);
+                            });
+                        }
+                    }
+                }}>
+                    Zainstaluj aplikację na urządzeniu
+                </button>
+            </div>
         </ElementWrapper>
+        <Show when={isInStandaloneMode()}>
+            <br />
+            <br />
+        </Show>
     </div>
 }

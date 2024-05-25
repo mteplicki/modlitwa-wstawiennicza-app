@@ -55,28 +55,28 @@ export async function showToast(toast: Toast, options?: { time?: number, animati
 }
 
 export function showExampleToasts() {
-    showToast({
-        type: "success",
-        title: "Witaj!",
-        description: "Witaj na stronie modlitwy wstawienniczej. Znajdziesz tutaj wszystkie potrzebne informacje."
-    },
-        { time: 9000 })
-    showToast({
-        type: "prompt",
-        title: "Uwaga!",
-        description: "Strona jest w fazie testów, więc mogą wystąpić błędy. Jeśli tak się stanie, prosimy o zgłoszenie tego faktu do organizatorów.",
-        action1: {
-            title: "Zgłoś błąd",
-            action: () => {
-                window.open("google.com");
-            }
-        },
-        action2: {
-            title: "Zamknij",
-            action: () => {
-                console.log("zamknij")
-            }
-        }
-    },
-        { time: 5000 })
+    // showToast({
+    //     type: "success",
+    //     title: "Witaj!",
+    //     description: "Witaj na stronie modlitwy wstawienniczej. Znajdziesz tutaj wszystkie potrzebne informacje."
+    // },
+    //     { time: 9000 })
+    // showToast({
+    //     type: "prompt",
+    //     title: "Uwaga!",
+    //     description: "Strona jest w fazie testów, więc mogą wystąpić błędy. Jeśli tak się stanie, prosimy o zgłoszenie tego faktu do organizatorów.",
+    //     action1: {
+    //         title: "Zgłoś błąd",
+    //         action: () => {
+    //             window.open("google.com");
+    //         }
+    //     },
+    //     action2: {
+    //         title: "Zamknij",
+    //         action: () => {
+    //             console.log("zamknij")
+    //         }
+    //     }
+    // },
+    //     { time: 5000 })
 }
