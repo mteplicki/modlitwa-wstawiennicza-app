@@ -15,6 +15,7 @@ export default defineConfig({
       }
     }
   },
+  base: './',
   plugins: [
     solid(),
     VitePWA({

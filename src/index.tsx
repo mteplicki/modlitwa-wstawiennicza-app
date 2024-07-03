@@ -12,6 +12,8 @@ if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localS
     document.documentElement.classList.remove('dark')
 }
 
+console.log("version 1.4.2")
+
 function _calculateScrollbarWidth() {
     document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
 }
