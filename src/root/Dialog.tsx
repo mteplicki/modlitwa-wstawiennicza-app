@@ -78,7 +78,6 @@ export function Dialog() {
     createEffect(() => {
         if (query.dialog) {
             observer.observe(box!)
-            observer
             dialog?.showModal();
             box?.animate([
                 { "opacity": "0", "transform": "translate(0, 50px)" },

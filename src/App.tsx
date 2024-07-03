@@ -3,7 +3,7 @@ import Nav from "./root/Root"
 import Intencje from "./intencje/Intencje"
 import Uczestnicy from "./uczestnicy/Uczestnicy"
 
-console.log("version 1.3.9")
+console.log("version 1.4.0")
 
 export default function App() {
     return (

@@ -35,7 +35,7 @@ export default defineConfig({
         name: "Modlitwa wstawiennicza MOST",
         short_name: "MW MOST",
         description: "Aplikacja podprzęsła modlitwy wstawienniczej w duszpasterstwie MOST",
-        theme_color: "#e8f1fe",
+        theme_color: "#1e3a8a",
         icons: [
           {
             "src": "pwa-64x64.png",

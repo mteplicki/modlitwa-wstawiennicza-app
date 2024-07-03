@@ -15,7 +15,7 @@ self.onnotificationclick = (event) => {
                 for (const client of clientList) {
                     if (client.url.includes("modlitwa-wstawiennicza-23992.web.app") && "focus" in client) return client.focus();
                 }
-                if (self.clients.openWindow) return self.clients.openWindow("https://modlitwa-wstawiennicza-23992.web.app/intencje");
+                if (self.clients.openWindow) return self.clients.openWindow("https://modlitwa-wstawiennicza-23992.web.app/uczestnicy");
             }),
     );
 };

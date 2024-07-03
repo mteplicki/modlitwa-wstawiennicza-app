@@ -23,8 +23,6 @@ window.addEventListener('load', _calculateScrollbarWidth);
 
 const root = document.getElementById('root')
 
-
-
 render(() => App(), root!)
 
 window.addEventListener('beforeinstallprompt', (e) => {

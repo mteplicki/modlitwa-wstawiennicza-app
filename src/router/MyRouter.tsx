@@ -101,8 +101,12 @@ const handleNav = (event: NavigateEvent) => {
         async handler() {
             if (event.navigationType === "traverse") {
                 event.stopPropagation();
+                console.log("traverse")
+                console.log(url.pathname)
                 navigate(url.pathname, { notPush: true, query: queryString });
             } else {
+                console.log("popstate")
+                console.log(url.pathname)
                 navigate(url.pathname, { query: queryString });
             }
         }

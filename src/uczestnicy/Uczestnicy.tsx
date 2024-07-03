@@ -19,8 +19,8 @@ const [showLoading, setShowLoading] = createSignal(true);
 const [showElement, setShowElement] = createSignal<Element>("table");
 
 const disabledButtonStyle = {
-    "bg-green-400": true,
-    "text-gray-100": true,
+    "bg-green-300": true,
+    "text-white": true,
     "dark:bg-green-800": true,
     "dark:text-gray-400": true
 }
@@ -142,7 +142,7 @@ export default function Uczestnicy() {
             <div class="px-4 py-2">
                 <button disabled={notificationPermitted()} type="button" classList={
                     notificationPermitted() ? disabledButtonStyle : enabledButtonStyle
-                } class=" font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition-all" onclick={() => {
+                } class=" font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition-all sm:w-80 w-full" onclick={() => {
                     Notification.requestPermission().then((permission) => {
                         console.log(permission)
                         if (permission === "granted") {
@@ -156,7 +156,7 @@ export default function Uczestnicy() {
             <div class="px-4 py-2">
                 <button disabled={isInStandaloneMode()} type="button" classList={
                     isInStandaloneMode() ? disabledButtonStyle : enabledButtonStyle
-                } class=" font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 transition-all" onclick={() => {
+                } class=" font-medium rounded-lg text-sm px-5 py-2.5 transition-all sm:w-80 w-full " onclick={() => {
                     if (isIos()) {
                         showToast({
                             type: "prompt",
