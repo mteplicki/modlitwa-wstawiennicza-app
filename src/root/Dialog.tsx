@@ -35,7 +35,7 @@ const firebaseUISetting : firebaseui.auth.Config = {
 }
 
 export function Dialog() {
-    let dialog: HTMLDialogElement | undefined;
+    let dialog: HTMLDivElement | undefined;
     let flex: HTMLDivElement | undefined;
     let box: HTMLDivElement | undefined;
     let fallbackRef : HTMLDivElement | undefined;
@@ -78,13 +78,13 @@ export function Dialog() {
     createEffect(() => {
         if (query.dialog) {
             observer.observe(box!)
-            dialog?.showModal();
+            dialog?.classList.add(styles.open)
             box?.animate([
                 { "opacity": "0", "transform": "translate(0, 50px)" },
                 { "opacity": "1", "transform": "translate(0, 0)" }
             ],
                 150)
-        } else if (dialog?.open) {
+        } else if (dialog?.classList.contains(styles.open)){
             observer.unobserve(box!)
             let animation1 = dialog?.animate([
                 { "background-color": "rgba(0, 0, 0, 0.4);", opacity: "1" },
@@ -96,7 +96,7 @@ export function Dialog() {
                 { "transform": "translate(0, -50px)" }
             ],
                 150)
-            Promise.all([animation1.finished, animation2?.finished]).then(() => { dialog?.close() })
+            Promise.all([animation1.finished, animation2?.finished]).then(() => { dialog?.classList.remove(styles.open) })
         }
     })
 
@@ -104,7 +104,7 @@ export function Dialog() {
         setQueryParams(((oldState) => { return { ...oldState, ...{ dialog: undefined } } }))
     }
 
-    return <dialog ref={dialog} classList={{ [styles.mydialog]: true }} id="test" class="transition-all overflow-y-hidden p-3 sm:p-0 ">
+    return <div ref={dialog} classList={{ [styles.mydialog]: true }} id="test" class="transition-all overflow-y-hidden p-3 sm:p-0 ">
         <div ref={flex} class="flex flex-col items-center justify-center h-full">
             <div ref={box} class="mx-auto overflow-hidden transition-all sm:w-fit bg-white my-auto shadow dark:bg-gray-700 rounded-lg relative w-full sm:max-w-xl sm:min-w-[35rem] py-auto sm:max-h-full h-full sm:h-auto">
                 <div ref={fallbackRef} class="w-full h-full z-[56] bg-white dark:bg-gray-700 absolute">
@@ -133,5 +133,5 @@ export function Dialog() {
                 </div>
             </div>
         </div>
-    </dialog>;
+    </div>;
 }

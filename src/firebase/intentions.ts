@@ -1,10 +1,13 @@
 import { createResource } from "solid-js";
-import { auth, isLogged, refetchIsAuthorized } from "./auth";
+import { app } from "./firebase";
+import { getAuth } from "firebase/auth";
+import { isLogged, refetchIsAuthorized } from "./auth";
 import { DocumentData, collection, documentId, getDocs, limit, orderBy, query } from "firebase/firestore";
 import { firestore } from "./firestore";
 import { effect } from "solid-js/web";
 
-export const [data, { refetch }] = createResource(async () => {
+const [d, { refetch }] = createResource(async () => {
+    const auth = getAuth(app);
     await auth.authStateReady();
     if (!auth.currentUser?.email) {
         return null;
@@ -16,6 +19,10 @@ export const [data, { refetch }] = createResource(async () => {
     }
     return docs.docs[0].data();
 })
+
+export const data = d;
+
+export const refetchData = refetch;
 
 export function prepareData(data: DocumentData | null | undefined) {
     if (!data) {
@@ -30,9 +37,10 @@ let resolve : (value: void | PromiseLike<void>) => void;
 export const isLoaded = new Promise<void>((res) => {resolve = res})
 
 effect(async () => {
+    const auth = getAuth(app);
     await auth.authStateReady();
     if (isLogged()) {
-        let promise1 = refetch();
+        let promise1 = refetchData();
         let promise2 = refetchIsAuthorized()
         await Promise.all([promise1, promise2])
     }

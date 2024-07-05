@@ -5,6 +5,7 @@ import { createResource, createSignal } from "solid-js"
 import { firestore } from "./firestore"
 import { messaging, registerTokens, unregisterTokens, vapidKey } from "./messaging"
 import { getToken } from "firebase/messaging"
+import { refetchData } from "./intentions"
 
 export const auth = getAuth(app)
 
@@ -53,6 +54,7 @@ auth.onAuthStateChanged((user) => {
         setCurrentUser(user);
         refetchLoggedResource();
         refetchIsAuthorized();
+        refetchData();
         (async () => {
             if (await isAuthorizedFunc()) {
                 const token = await getToken(messaging, { vapidKey: vapidKey })

@@ -12,7 +12,7 @@ if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localS
     document.documentElement.classList.remove('dark')
 }
 
-console.log("version 1.4.2")
+console.log("version 1.5.2")
 
 function _calculateScrollbarWidth() {
     document.documentElement.style.setProperty('--scrollbar-width', (window.innerWidth - document.documentElement.clientWidth) + "px");
@@ -44,7 +44,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
             title: "Instalacja aplikacji",
             description: "Aby zainstalować aplikację na swoim urządzeniu iOS, kliknij przycisk 'Udostępnij', a następnie 'Dodaj do ekranu głównego'."
         },
-            { time: 8000 })
+            { time: 10000 })
     } else {
         showToast({
             type: "prompt",
@@ -53,9 +53,9 @@ window.addEventListener('beforeinstallprompt', (e) => {
             action1: {
                 title: "Zainstaluj",
                 action: () => {
-                    if (deferredPrompt) {
-                        deferredPrompt.prompt();
-                        deferredPrompt.userChoice.then((choiceResult: any) => {
+                    if (deferredPrompt()) {
+                        deferredPrompt().prompt();
+                        deferredPrompt().userChoice.then((choiceResult: any) => {
                             if (choiceResult.outcome === 'accepted') {
                                 console.log('User accepted the A2HS prompt');
                                 localStorage.removeItem('pwa-install-rejected');

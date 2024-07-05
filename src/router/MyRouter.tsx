@@ -91,7 +91,6 @@ export function navigate(newPath: string, options?: { notPush?: boolean, query?:
 
 
 const handleNav = (event: NavigateEvent) => {
-    console.log("handleNav:", event)
     if (!event.destination.sameDocument) return;
     if (event.navigationType === 'push') {
         return;

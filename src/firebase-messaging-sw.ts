@@ -1,7 +1,6 @@
 /// <reference lib="webworker" />
 
 self.onnotificationclick = (event) => {
-    console.log("On notification click: ", event.notification.tag);
     event.notification.close();
 
     // This looks to see if the current is already open and
@@ -36,7 +35,7 @@ console.log("SW version 1.1.1")
 precacheAndRoute(self.__WB_MANIFEST)
 
 onBackgroundMessage(messaging, (payload) => {
-    console.log('[firebase-messaging-sw.js] Received background message ', payload);
+    // console.log('[firebase-messaging-sw.js] Received background message ', payload);
     const notificationTitle = payload.data?.title!;
     const notificationBody = payload.data?.body!;
     const notificationOptions: NotificationOptions = {

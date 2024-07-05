@@ -2,7 +2,7 @@ import { For, Show, Suspense, createEffect, createSignal } from "solid-js";
 import TabelaFallback from "./TabelaFallback";
 import { isLogged } from "../firebase/auth";
 import styles from "./Tabela.module.css";
-import {data, prepareData, refetch} from "../firebase/intentions";
+import {data, prepareData, refetchData as refetch} from "../firebase/intentions";
 
 const [scrollHeight, setScrollHeight] = createSignal(100000);
 

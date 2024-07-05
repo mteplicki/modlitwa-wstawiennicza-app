@@ -154,25 +154,19 @@ export default function Uczestnicy() {
                 </button>
             </div>
             <div class="px-4 py-2">
-                <button disabled={isInStandaloneMode()} type="button" classList={
-                    isInStandaloneMode() ? disabledButtonStyle : enabledButtonStyle
+                <button disabled={!deferredPrompt()} type="button" classList={
+                    !deferredPrompt() ? disabledButtonStyle : enabledButtonStyle
                 } class=" font-medium rounded-lg text-sm px-5 py-2.5 transition-all sm:w-80 w-full " onclick={() => {
                     if (isIos()) {
                         showToast({
                             type: "prompt",
                             title: "Instalacja aplikacji",
-                            description: "Aby zainstalować aplikację na swoim urządzeniu, kliknij przycisk 'Udostępnij a następnie 'Dodaj do ekranu głównego'.",
-                            action1: {
-                                title: "Udostępnij",
-                                action: () => {
-                                    console.log("share")
-                                }
-                            }
+                            description: "Aby zainstalować aplikację na swoim urządzeniu, kliknij przycisk 'Udostępnij a następnie 'Dodaj do ekranu głównego'."
                         })
                     } else {
-                        if (deferredPrompt) {
-                            deferredPrompt.prompt();
-                            deferredPrompt.userChoice.then((choiceResult: any) => {
+                        if (deferredPrompt()) {
+                            deferredPrompt().prompt();
+                            deferredPrompt().userChoice.then((choiceResult: any) => {
                                 if (choiceResult.outcome === 'accepted') {
                                     console.log('User accepted the PWA prompt');
                                     localStorage.removeItem('pwa-install-rejected');

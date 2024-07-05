@@ -11,11 +11,7 @@ export const isInStandaloneMode: () => boolean = () =>
 
 export const [notificationPermitted, setNotificationPermitted] = createSignal(Notification.permission === "granted");
 
-export let deferredPrompt : any;
-
-export const setDeferredPrompt = (e: any) => {
-      deferredPrompt = e;
-}
+export const [deferredPrompt, setDeferredPrompt] = createSignal<any>(null);
 
 // Detects if device is on iOS 
 export const isIos = () => {
